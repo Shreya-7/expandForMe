@@ -1,0 +1,83 @@
+.btn {
+  background-color: #ecb82c !important;
+  margin-bottom: 20px;
+  margin-top: 5px;
+}
+
+form {
+  margin-top: 15px;
+}
+
+.alert {
+  margin-top: 30px;
+  border: dashed 1px black;
+  display: none;
+}
+
+.table-responsive {
+  margin-top: 20px;
+}
+
+#serial-number-column {
+  width: 20px;
+}
+
+.custom-file-input {
+  opacity: 1;
+  margin-top: 20px;
+}
+
+.form-help-text {
+  color: #b7d8e2 !important;
+}
+
+a {
+  color: inherit !important;
+}
+
+.modal-header {
+  color: #0e4050;
+}
+
+.modal-body {
+  color: black;
+  text-align: left;
+}
+
+.modal-body li {
+  color: #818a82;
+}
+
+.navbar {
+  color: #ecb82c;
+}
+
+section {
+  border-bottom: solid 2px #ecb82c;
+}
+
+h4 {
+  color: #ecb82c;
+}
+
+.footer {
+  background: #ecb82c !important;
+  padding: 20px 0px 20px 0px !important;
+}
+
+.footer > div {
+  padding: 0px !important;
+  margin: 0px !important;
+}
+
+.popover {
+  max-width: 80% !important;
+}
+
+.popover-trigger {
+  color: #ecb82c !important;
+}
+
+.popover-content {
+  display: none;
+}

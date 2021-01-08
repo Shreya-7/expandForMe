@@ -1,0 +1,508 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+
+{% if not session.logged_in %}
+
+<p id='#session-var-lol' class='idk'></p>
+
+<!-- sign up/sign in section starts -->
+<section id="authentication" class="content-section bg-primary text-white text-center">
+    <div class="container">
+        <div class="row">
+
+            <!-- sign up section -->
+            <div class="col-md-12 col-lg-6 mb-5 mb-lg-0">
+
+                <h4><strong>Sign Up</strong></h4>
+                <p class="mb-0 text-faded">with your moderator account</p>
+                <p class="mb-0 text-faded popover-trigger">
+                    <a href="#" data-toggle="popover" data-trigger="popover" title="Basic Flow"
+                    data-placement="bottom" id="signup-popover">
+                        How does this work?
+                    </a>
+                </p>
+                <ul id='signup-popover-content' class='popover-content'>
+                    <li>To register your subreddit here, you need to use a Reddit account that moderates it.</li>
+                    <li>This is to ensure approval of subreddit moderators for: 
+                        <ul>
+                            <li>Opting in/out of this bot</li>
+                            <li>Managing your acronyms and phrase</li>
+                            <li>Managing bot comment settings</li>
+                        </ul>
+                    </li>
+                    <li>You will receive an OTP on the mentioned moderator account to ensure authentication.</li>
+                    <li>Upon success, you can sign in using the subreddit display name and the password set by you.</li>
+                    <li>After you sign up, don't forget to set up the bot settings, comment phrase and your acronyms! :)</li>
+                </ul>
+
+                <!-- sign up form -->
+                <form action="{{ url_for('signup') }}" method="post">
+                    <div class="form-group">
+                        <input class="form-control" type="text" name="mod-username" placeholder="Moderator Username" required="">
+                    </div>
+                    <div class="form-group">
+                        <input class="form-control" type="text" name="subreddit-name" placeholder="Subreddit Name" required="">
+                    </div>
+                    <div class="form-group">
+                        <input class="form-control" type="password" name="password" placeholder="Password (does not have to be your Reddit password)" required="">
+                    </div>
+                    <button class="btn btn-primary" id="otp-send-button" type="submit">
+                        Send OTP to my moderator account
+                    </button>
+                </form>
+
+                <!-- otp form -->
+                <form method="post" action="{{ url_for('verify_otp') }}">
+                    <div class="form-group">
+                        <input class="form-control" type="text" name="mod-otp" placeholder="Enter OTP" required="">
+                    </div>
+                    <button class="btn btn-primary" id="otp-verify-button" type="submit">
+                        Verify OTP
+                    </button>
+                </form>
+            </div>
+
+            <!-- sign in section -->
+            <div class="col-md-12 col-lg-6 mb-5 mb-lg-0">
+
+                <h4><strong>Sign In</strong></h4>
+                <p class="mb-0 text-faded">to your SubReddit account on expandForMe</p>
+                <p class="mb-0 text-faded popover-trigger">
+                    <a href="###" data-toggle="popover" data-trigger="popover" title="Basic Flow" data-placement="bottom"
+                        id="signin-popover">
+                        Set up Help
+                    </a>
+                </p>
+                <ul id='signin-popover-content' class='popover-content'>
+                    After registering, make sure you do the following to activate the bot service:
+                    <li><strong>Change</strong> bot settings - what it comments on, if it's automatic or called, etc.</li>
+                    <li>Set up your <strong>comment phrase</strong> - a default is provided</li>
+                    <li>Add a list of <strong>acronyms</strong> with their details</li>
+                    And voila!
+                </ul>
+                
+                <!-- sign in form -->
+                <form  action="{{ url_for('login') }}" method="post">
+                    <div class="form-group">
+                        <input class="form-control" type="text" name="subreddit-name" placeholder="Subreddit Name" required="">
+                    </div>
+                    <div class="form-group">
+                        <input class="form-control" type="password" name="password" placeholder="Password (does not have to be your Reddit password)" required="">
+                    </div>
+                    
+                    <button  type="submit" class="btn btn-primary" id="sign-in-button">
+                        Let's go!
+                    </button>
+                </form>
+                
+                <!-- forgotten password modal trigger-->
+                <a class="form-text text-muted form-help-text" data-toggle="modal" data-target="#forgot-password">
+                    Forgotten Password?
+                </a>
+                
+                <!-- forgotten password modal -->
+                <div class="modal fade" role="dialog" tabindex="-1" id="forgot-password">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h4 class="modal-title">Forgotten Password</h4>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">×</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <p>Enter the username of a moderator of the subreddit. The password will be sent to that account after
+                                    OTP verification.</p>
+                                <form></form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- message space-->
+                <div class="alert alert-warning" role="alert" id="auth-alert">
+                    <span><strong>{{ message }}</strong><br></span>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- sign up/sign in section ends -->
+
+{% else %}
+    <p id='#session-var-lol'></p>
+{% endif %}
+
+<!-- services section starts -->
+<section id="services" class="content-section bg-primary text-white text-center">
+    
+    <div class="container">
+        
+        <!-- section heading -->
+        <div class="content-section-heading">
+            <h3 class="text-secondary mb-0">Services</h3>
+            <h2 class="mb-5">Manage your bot settings</h2>
+        </div>
+
+        <div class="row">
+
+            <!-- settings area starts -->
+            <div class="col-md-6 col-lg-3 mb-5 mb-lg-0">
+
+                <!-- settings icon -->
+                <span class="mx-auto service-icon rounded-circle mb-3">
+                    <i class="icon-settings"></i>
+                </span>
+
+                <!-- settings modal trigger -->
+                <a href="#" data-toggle="modal" data-target="#opt" id="settings-modal">
+                    <h4><strong>Manage Bot Settings</strong></h4>
+                </a>
+
+                <!-- settings modal -->
+                <div class="modal fade" role="dialog" tabindex="-1" id="opt">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h4 class="modal-title">Settings for&nbsp;</h4>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">×</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+
+                                <!-- settings form in the modal -->
+                                <form class="col-form-label" id="settings-form" method="post">
+                                    
+                                    <!-- 'comment on' setting -->
+                                    <div class="form-group">
+                                        <div class="form-row">
+                                            <div class="col-sm-3">
+                                                <strong>Comment On</strong>
+                                            </div>
+                                            <div class="col-sm-9">
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="checkbox" id="comment-on-post" name="comment_item" value="0">
+                                                    <label class="form-check-label" for="comment-on-post">Posts</label>
+                                                </div>
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="checkbox" id="comment-on-comment" name="comment_item" value="1">
+                                                    <label class="form-check-label" for="comment-on-comment">Comments</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- 'comment when' setting -->
+                                    <div class="form-group">
+                                        <div class="form-row">
+                                            <div class="col-sm-3">
+                                                <strong><span>Comment when</span></strong>
+                                            </div>
+                                            <div class="col-sm-9">
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="radio" id="comment-when-called" name="auto" value="0" required>
+                                                        <label class="form-check-label" for="comment-when-called">
+                                                            Called with !expandForMe
+                                                        </label>
+                                                    </div>
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="radio" id="comment-when-post" name="auto" value="1" required>
+                                                    <label class="form-check-label" for="comment-when-post">
+                                                        Automatically after item is posted
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- 'comment type' setting -->
+                                    <div class="form-group">
+                                        <div class="form-row">
+                                            <div class="col-sm-3">
+                                                <strong><span>Comment type</span></strong>
+                                            </div>
+                                            <div class="col-sm-9">
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="radio" id="comment-once" name="comment_frequency" value="0" required>
+                                                    <label class="form-check-label" for="comment-once">
+                                                        Single comment with all acronyms used (updates constantly)
+                                                    </label>
+                                                </div>
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="radio" id="comment-all" name="comment_frequency" value="1" required>
+                                                    <label class="form-check-label" for="comment-all">
+                                                        Reply to every item using an acronym
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- 'status' setting -->
+                                    <div class="form-group">
+                                        <div class="form-row">
+                                            <div class="col-sm-3">
+                                                <strong><span>Status</span></strong>
+                                            </div>
+                                            <div class="col-sm-9">
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="radio" id="opt-in" name="opted" value="1" required>
+                                                    <label class="form-check-label" for="opt-in">Opt-In</label>
+                                                </div>
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="radio" id="opt-out-temp" name="opted" value="0" required>
+                                                    <label class="form-check-label" id="opt-out-temp" for="comment-all">Opt-Out Temporarily</label>
+                                                </div>
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="radio" id="opt-out-for" name="opted" value="2" required>
+                                                    <label class="form-check-label" id="opt-out-for" for="comment-all">Opt-Out 5ever</label></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <button class="btn btn-primary" type="submit">Save</button>
+                                </form>
+
+                                <div class="alert" id="settings-alert"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- setting description -->
+                <p class="mb-0 text-faded">Opt-in/out, monitoring and triggers</p>
+            </div>
+            <!-- settings area ends -->
+
+            <!-- phrase area starts -->
+            <div class="col-md-6 col-lg-3 mb-5 mb-lg-0">
+
+                <!-- phrase icon -->
+                <span class="mx-auto service-icon rounded-circle mb-3">
+                    <i class="icon-bubble"></i>
+                </span>
+
+                <!-- phrase modal trigger -->
+                <a href="#" data-toggle="modal" data-target="#phrase-edit" id="phrase-modal">
+                    <h4><strong>Edit Phrase</strong></h4>
+                </a>
+
+                <!-- phrase modal-->
+                <div class="modal fade" role="dialog" tabindex="-1" id="phrase-edit">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h4 class="modal-title">Edit Phrase</h4>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">×</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+
+                                <ul>
+                                    <li>
+                                        Your <strong>phrase</strong> is what the bot comments on your subreddit 
+                                        by substituting the <strong>headings</strong> as required.
+                                    </li>
+                                    <li> 
+                                        <strong>Headings</strong> are how the phrase is updated to match the acronym.
+                                    </li>
+                                    <li>
+                                        Headings are included by surrounding them with {}
+                                    </li>
+                                    <li>
+                                        You have to include <strong>atleast two</strong> headings: <strong>A</strong> (Acronym) and <strong>FF</strong> (Full Form).
+                                    </li>
+                                    <li>
+                                        The headings that you set in the phrase should match the headings you upload
+                                        with the acronyms.
+                                    </li>
+                                </ul>                                
+
+                                <!-- phrase edit form -->
+                                <form id="phrase-edit-form" method="post">
+                                    <div class="form-group">
+
+                                        <input class="form-control" type="text" name="phrase" value="{A} stands for {FF}">
+                                        
+                                        <small class="form-text text-muted">
+                                                You can change the sentence and add markdown formatting as supported by Reddit.
+                                                <br>You cannot edit the number of variables your phrase has until you delete all your acronyms.
+                                        </small>
+
+                                        <div class="alert" role="alert" id="phrase-alert">
+                                            <span><strong></strong><br></span>
+                                        </div>
+
+                                    </div>
+                                    <input type="submit" class="btn btn-primary" id='phrase-btn' />
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- phrase area description -->
+                <p class="mb-0 text-faded">Edit your comment text</p>
+            </div>
+            <!-- phrase area ends -->
+
+            <!-- acronym area starts -->
+            <div class="col-md-6 col-lg-3 mb-5 mb-lg-0">
+
+                <!-- acronym icon -->
+                <span class="mx-auto service-icon rounded-circle mb-3">
+                    <i class="icon-notebook"></i>
+                </span>
+
+                <a href="#edit-acronyms">
+                    <h4><strong>Edit Acronyms</strong></h4>
+                </a>
+
+                <!-- acronym area description -->
+                <p class="mb-0 text-faded">Add, edit &amp; delete your acronyms</p>
+            </div>
+            <!-- acronym area ends, the settings for this area are in a separate section -->
+            
+            <!-- activity area starts -->            
+            <div class="col-md-6 col-lg-3 mb-5 mb-lg-0">
+
+                <!-- activity area -->
+                <span class="mx-auto service-icon rounded-circle mb-3">
+                    <i class="icon-cloud-download"></i>
+                </span> 
+
+                <a href="{{ url_for('download_acronyms') }}">
+                    <h4><strong>Download Acronyms</strong></h4>
+                </a>
+
+                <!-- activity area description -->
+                <p class="mb-0 text-faded">Download the acronyms list for your subreddit</p>
+            </div>
+            <!-- activity area ends, the settings for this area are in a separate section -->
+
+        </div>
+    </div>
+</section>
+
+<!-- edit acronyms section starts -->
+<section id="edit-acronyms" class="content-section bg-primary text-white text-center">
+    <div class="container">
+        <div class="row">
+
+            <!-- add/edit section starts -->
+            <div class="col-md-12 col-lg-6 mb-5 mb-lg-0">
+
+                <h4><strong>Add/Edit</strong></h4>
+
+                <!-- upload file description -->
+                <p class="mb-0 text-faded">Upload a CSV file with the additions</p>
+                <p class="mb-0 text-faded popover-trigger">
+                    <a href="##" data-toggle="popover" data-trigger="popover" title="File Format for Uploading Acronyms" data-placement="bottom"
+                        id="add-upload-popover">
+                        File Format Help
+                    </a>
+                </p>
+                <div id='add-upload-popover-content' class='popover-content'>
+                    A <strong>CSV file</strong> has to be uploaded:
+                        <ul>
+                            <li>The first line should contain the headings in order</li>
+                            <li>The following lines should contain the details of the acronym, corresponding to the headings</li>
+                            <li>A (Acronym) and FF (Full Form) are mandatory to be included as headings</li>
+                            <li>You can manually update only the full forms. To update other headings also, upload a file.</li>
+                        </ul>
+                    <strong>Example:</strong>
+
+                    <div>
+                        <img src='static/img/add-upload-demo.png' class="img-fluid">
+                    </div>
+                </div>
+
+                <!-- file upload area -->
+                <div class="custom-file">
+                    <form id="acro-add-file-form" enctype="multipart/form-data" method="post">
+                        <input type="file" name="file" class="custom-file-input" id="add-acronym-file">
+                        <button class="btn btn-primary" id="upload-add-file" type="submit">Upload File</button>
+                    </form>
+                </div>
+
+                <!-- manual entry description -->
+                <p class="mb-0 text-faded">OR&nbsp; manually update them</p>
+
+                <!-- manual add/edit form -->
+                <form method="post" id="acro-add-form">
+
+                    <div class="form-group">
+                        <input class="form-control" type="text" name="acronym" placeholder="Acronym" required="">
+                    </div>
+
+                    <div class="form-group">
+                        <input class="form-control" type="text" name="full-form" placeholder="Full Form" required="">
+                    </div>
+
+                    <button class="btn btn-primary" id="acro-send-button" type="submit">Update acronym</button>
+                </form>
+
+            </div>
+            <!-- add/edit section ends -->
+
+            <!-- delete section starts -->
+            <div class="col-md-12 col-lg-6 mb-5 mb-lg-0">
+                <h4><strong>Delete</strong></h4>
+
+                <!-- upload file description -->
+                <p class="mb-0 text-faded">Upload a file with the deletions&nbsp;</p>
+                <p class="mb-0 text-faded popover-trigger">
+                    <a href="##" data-toggle="popover" data-trigger="popover" title="File Format for Uploading Acronyms"
+                        data-placement="bottom" id="delete-upload-popover">
+                        File Format Help
+                    </a>
+                </p>
+                <div id='delete-upload-popover-content' class='popover-content'>
+                    A regular TXT file with all the acronym names on a new line.
+                    <br>
+                    <strong>Example:</strong>
+                
+                    <div>
+                        <img src='static/img/delete-upload-demo.png' class="img-fluid">
+                    </div>
+                </div>
+
+                <!-- file upload area -->
+                <div class="custom-file">
+                    <form id="acro-delete-file-form" enctype = "multipart/form-data" method="post">
+                        <input type="file" name="file" class="custom-file-input" id="delete-acronym-file">
+                        <button class="btn btn-primary" id="upload-del-file" type="submit">Upload File</button>
+                    </form>
+                </div>
+
+                <!-- manual delete description -->
+                <p class="mb-0 text-faded">OR&nbsp; manually delete them</p>
+
+                <!-- manual delete form -->
+                <form method="post" id="acro-delete-form" enctype="multipart/form-data">
+
+                    <div class="form-group">
+                        <input class="form-control" type="text" name="acronym" placeholder="Acronym" required="">
+                        <small class="form-text text-muted form-help-text">
+                            To enter multiple, separate them by commas.&nbsp;To delete all acronyms, enter '*'.&nbsp;
+                        </small>
+                    </div>
+
+                    <button class="btn btn-primary" id="sign-in-button-1" type="submit">Delete acronym(s)</button>
+                </form>
+
+                <!-- message area -->
+                <div class="alert alert-warning" role="alert" id="acro-phrase-alert">
+                    <span><strong>Some warning</strong><br></span>
+                </div>
+            </div>
+            <!-- delete section ends -->
+
+        </div>
+    </div>
+</section>
+<!-- edit acronyms section ends -->
+
+{% endblock %}

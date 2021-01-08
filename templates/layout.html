@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+
+    <title>{% block title %}expandForMe - Your Reddit Acronym Bot{% endblock %}</title>
+
+    <link rel="stylesheet" href="static/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,700,300italic,400italic,700italic">
+    <link rel="stylesheet" href="static/fonts/font-awesome.min.css">
+    <link rel="stylesheet" href="static/fonts/simple-line-icons.min.css">
+    <link rel="stylesheet" href="static/css/style.css">
+</head>
+
+<body id="page-top">
+
+    <!-- navbar starts-->
+    <nav class="navbar navbar-dark navbar-expand-md fixed-top bg-dark">
+        <div class="container-fluid">
+
+            <a class="navbar-brand" href="#">expandForMe</a>
+
+            <button data-toggle="collapse"
+                class="navbar-toggler" data-target="#navcol-1">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            {% if session.logged_in %}
+                <!-- navbar items -->
+                <div class="collapse navbar-collapse" id="navcol-1">
+                    <ul class="nav navbar-nav ml-auto">
+                        <li class="nav-item text-right">
+                            <a class="nav-link active" href="#">Waddup r/{{ session.sub.name }}</a>
+                        </li>
+                        <li class="nav-item text-right">
+                            <a class="nav-link active" href="{{ url_for('logout') }}">Logout</a>
+                        </li>
+                    </ul>
+                </div>
+            {% endif %}
+            
+        </div>
+    </nav>
+    <!-- navbar ends -->
+
+    {% block body %}
+    {% endblock %}
+
+    <!-- portfolio starts -->
+    <section id="portfolio" class="content-section">
+
+        <div class="container">
+
+            <!-- section heading -->
+            <div class="content-section-heading text-center">
+                <h3 class="text-secondary mb-0">THE BOT</h3>
+                <h2 class="mb-5">In Action</h2>
+            </div>
+
+            <div class="row no-gutters">
+
+                <div class="col-lg-6">
+                    <a class="portfolio-item" href="#">
+                        <div class="caption">
+                            <div class="caption-content">
+                                <h2>CALLING THE BOT</h2>
+                                <p class="mb-0">
+                                    The bot can be configured to comment only when called. 
+                                    It's useful when spelling out the acronym is not always needed.
+                                </p>
+                            </div>
+                        </div><img class="img-fluid" src="static/img/portfolio-1.jpg">
+                    </a>
+                </div>
+
+                <div class="col-lg-6">
+                    <a class="portfolio-item" href="#">
+                        <div class="caption">
+                            <div class="caption-content">
+                                <h2>AUTOMATIC FUNCTION</h2>
+                                <p class="mb-0">
+                                    The bot can be configured to automatically look for acronyms and comment.
+                                    It's useful in a sub where there are a large number of acronyms, thus 
+                                    almost always requiring spelling out the acronym.
+                                </p>
+                            </div>
+                        </div><img class="img-fluid" src="static/img/portfolio-2.jpg">
+                    </a>
+                </div>
+
+                <div class="col-lg-6">
+                    <a class="portfolio-item" href="#">
+                        <div class="caption">
+                            <div class="caption-content">
+                                <h2>CONCISE & SINGLE COMMENT</h2>
+                                <p class="mb-0">
+                                    The bot can be configured to make only one comment per post.
+                                    Based on the trigger settings, any additional acronyms are edited 
+                                    into the same comment. It helps summarise the entire thing.
+                                </p>
+                            </div>
+                        </div><img class="img-fluid" src="static/img/portfolio-3.jpg">
+                    </a>
+                </div>
+
+                <div class="col-lg-6">
+                    <a class="portfolio-item" href="#">
+                        <div class="caption">
+                            <div class="caption-content">
+                                <h2>MULTIPLE COMMENTS</h2>
+                                <p class="mb-0">
+                                    The bot can be configured to respond to every single comment based on 
+                                    trigger settings. It's useful for quick clarifications.
+                                </p>
+                            </div>
+                        </div><img class="img-fluid" src="static/img/portfolio-4.jpg">
+                    </a>
+                </div>
+
+            </div>
+
+        </div>
+    </section>
+    <!-- portfolio ends -->
+
+    <!-- footer starts -->
+    <footer class="footer text-center footer-mine">
+
+        <div class="container-fluid footer-container">
+
+            <!-- social media links -->
+            <ul class="list-inline mb-5">
+
+                <!-- email -->
+                <li class="list-inline-item">
+                    &nbsp;
+                    <a class="text-white social-link rounded-circle" href="#">
+                        <i class="icon-envelope" title="Drop moi an email"></i>
+                    </a>
+                </li>
+                <!-- reddit -->
+                <li class="list-inline-item">
+                    &nbsp;
+                    <a class="text-white social-link rounded-circle" href="#">
+                        <i class="icon-social-reddit" title="View the bot account"></i>
+                    </a>
+                </li>
+                <!-- github -->
+                <li class="list-inline-item">
+                    &nbsp;
+                    <a class="text-white social-link rounded-circle" href="#">
+                        <i class="icon-social-github" title="View the source code on Github"></i>
+                    </a>
+                </li>
+            </ul>
+            <p class="text-muted mb-0 small">Beep bop.</p>
+
+        </div>
+        <a class="js-scroll-trigger scroll-to-top rounded" href="#page-top">
+            <i class="fa fa-angle-up"></i>
+        </a>
+    </footer>
+    <!-- footer ends -->
+    <script src="static/js/jquery.min.js"></script>
+    <script src="static/bootstrap/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.min.js"></script>
+    <script src="static/js/stylish-portfolio.js"></script>
+    <script src="static/js/script.js"></script>
+</body>
+
+</html>

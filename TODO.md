@@ -1,0 +1,21 @@
+- **TODO**
+
+  - add security for file uploads and form data
+  - signup/login API call + OTP section display
+  - account retrieval features
+  - use acronyms and tooltips for full forms on site lol
+  - move messages alert to top of screen as it is not visible on mobile screens
+  - bot action images
+    - screengrab
+    - lightbox
+
+- **Assumptions**
+  - phrase cannot have decorative {}. use () or [] instead
+  - two compulsory column names - A, FF
+  - Add only using file, edit manually only the full form
+  - If editing using file, non existent ones are created
+  - Settings:
+    - **opted** - 1 (yes), 0 (no)
+    - **auto** - 1 (yes), 0 (no)
+    - **comment_frequency** - 1 (multi-comment), 0 (single comment)
+    - **comment_item** - 1 (comment), 0 (post), 2 (both)
