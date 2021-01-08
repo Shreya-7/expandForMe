@@ -14,7 +14,7 @@ sub_db = client["acronym_bot"]["subreddit"]
 comment_db = client["acronym_bot"]["comment"]
 reddit = praw.Reddit('bot1')
 
-disclaimer = "*************** \n\n^(Je suis un bot. Manage settings @ [Bot Website](http://google.com) | [Source Code](http://youtube.com))"
+disclaimer = "*************** \n\n^(Je suis un bot. Manage settings @ [Bot Website](http://google.com) | [Source Code](https://github.com/Shreya-7/expandForMe))"
 
 comments_replied_to = [i for i in comment_db.distinct(
     'parent_comment_id')]
