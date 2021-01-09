@@ -7,8 +7,7 @@ import pymongo
 
 from classes import Phrase, Acronym, Subreddit
 
-client = pymongo.MongoClient(
-    "mongodb+srv://Shreya:MoNgODB@cluster0.dxocy.mongodb.net/<dbname>?retryWrites=true&w=majority")
+client = pymongo.MongoClient(my_connection_string)
 
 sub_db = client["acronym_bot"]["subreddit"]
 comment_db = client["acronym_bot"]["comment"]
